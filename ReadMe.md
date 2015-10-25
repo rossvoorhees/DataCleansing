@@ -44,11 +44,15 @@ The following files are available for the train and test data.
 
 The Run_Analysis R script performs the following in sequence
 
-1. Downloads the dataset and extracts to the directory
-2. Combines the test and train data and adds the labels
-3. Extracts Variables with measure names that contain mean and standard deviation
-4. Combines the subjects, activities and meaures into one dataset
-5. Computes the mean of each variable, subject, and activity
-6. A tidy dataset is generated at "\Wearables\UCI HAR Dataset/CombinedData_Avg.txt"
+1. installs and Loads Packages Required for Analysis
+2. DownloaSds the dataset and extracts to the directory
+3. Loads files into dataframes
+4. Adds Labels to Column Names
+5. Combines the test and train data and adds the labels
+6. Extracts Variables with measure names that contain mean and standard deviation
+7. Combines the subjects, activities and meaures into one dataset
+8 Computes the mean of each variable, subject, and activity
+9. Removes uncessary columns and renames columns with proper description of column
+10. A tidy dataset is generated at "\Wearables\UCI HAR Dataset/CombinedData_Avg.txt"
 
 
