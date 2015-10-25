@@ -51,7 +51,7 @@ The Run_Analysis R script performs the following in sequence
 5. Combines the test and train data and adds the labels
 6. Extracts Variables with measure names that contain mean and standard deviation
 7. Combines the subjects, activities and meaures into one dataset
-8 Computes the mean of each variable, subject, and activity
+8. Computes the mean of each variable, subject, and activity
 9. Removes uncessary columns and renames columns with proper description of column
 10. A tidy dataset is generated at "\Wearables\UCI HAR Dataset/CombinedData_Avg.txt"
 
