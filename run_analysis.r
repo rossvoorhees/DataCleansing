@@ -1,3 +1,5 @@
+
+#STEP 1
 #Installs Packages
 install.packages("dplyr")
 install.packages("plyr")
@@ -8,6 +10,7 @@ library(dplyr)
 library(plyr)
 library(sqldf)
 
+#STEP 2
 #Creates Directory if doesn't Exist
 if(!file.exists("./Wearables")) {dir.create("./Wearables")}
 
@@ -22,6 +25,8 @@ unzip("Wearables\\WearablesData.zip", list = FALSE,exdir="Wearables", overwrite 
 #Sets Working Directory
 setwd("C:\\Users\\rvoorhees\\Documents\\Wearables\\UCI HAR Dataset")
 
+
+#Step 3
 #Read Files into vectors
 Labels <- read.csv(file="activity_labels.txt",header=FALSE, sep="")
 #Training 
@@ -37,6 +42,7 @@ y_test <- read.csv(file="test\\y_test.txt",header=FALSE, sep="")
 Feat <- read.csv(file="features.txt",header=FALSE, sep="")
 FeatI <- read.csv(file="features_info.txt",header=FALSE, sep="")
 
+#Step 4
 #Renames Columns
 Labels <- rename(Labels, c(V1="ActivityKey", V2="Activity"))
 y_test <- rename(y_test, c(V1="ActivityKey"))
@@ -47,11 +53,13 @@ Feat <- rename(Feat,c(V1="FeatureKey",V2="FeatureName"))
 y_train <- inner_join(y_train,Labels, by="ActivityKey")
 y_test <- inner_join(y_test,Labels, by="ActivityKey")
 
+#Step5
 #Combines Training and Test Datasets
 x_b <- bind_rows(x_train,x_test)
 y_b <- bind_rows(y_train,y_test)
 subject <- bind_rows(Sub_Train, Sub_Test)
 
+#Step 6
 ##Filter Measures
 features <- sqldf("Select FeatureKey, FeatureName from Feat where FeatureName like '%mean()%' or FeatureName like '%std()%'")
 
@@ -62,22 +70,26 @@ names(x_b) <- gsub("\\(|\\)", "", (features$FeatureName))
 #Rename Columns
 names(subject) = "Subjects"
 
+
+#Step 7
 #Combined the DataSets By Columns
 CombinedData <- bind_cols(subject, y_b, x_b)
 
 #Removes ActivityKey Column 
 CombinedData$ActivityKey <- NULL
 
+#Step 8
 #Creates Combined Datset for Average of each variable for each Subject and Activity
 CombinedData_Avg <- aggregate(CombinedData,list(CombinedData$Subjects, CombinedData$Activity), FUN=mean, row.names = FALSE)
 
+#Step 9
 #Removes and Renames Columns
 CombinedData_Avg$Subjects <- NULL
 CombinedData_Avg$Activity <- NULL
 CombinedData_Avg <- rename(CombinedData_Avg,c(Group.1="Subject",Group.2="Activity"))
 
 
-
+#Step 10
 #Creates Txt File for CombinedData_Avg
 write.csv2(CombinedData_Avg, file="CombinedData_Avg.txt", sep=",",row.names = FALSE)
 
